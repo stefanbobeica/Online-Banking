@@ -1,7 +1,7 @@
 package com.banking.sys.web;
 
 import com.banking.sys.dto.UserRegistrationDto;
-import com.banking.sys.service.TwoFaServiceImpl;
+// import com.banking.sys.service.TwoFaServiceImpl;
 import com.banking.sys.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -11,13 +11,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("/registration")
-public class RegistrationController {
+@RequestMapping("/register")
+public class RegisterController {
 	@Autowired
-	private  TwoFaServiceImpl twoFaService;
+	// private  TwoFaServiceImpl twoFaService;
 	private UserService userService;
 
-	public RegistrationController(UserService userService) {
+	public RegisterController(UserService userService) {
 		super();
 		this.userService = userService;
 	}
@@ -29,14 +29,14 @@ public class RegistrationController {
 
 	@GetMapping
 	public String showRegistrationForm() {
-		return "registration";
+		return "register";
 	}
 
 	@PostMapping
 	public String registerUserAccount(@ModelAttribute("user") UserRegistrationDto registrationDto) {
-		twoFaService.sendSimpleEmail("stefanbobeica25@gmail.com", "Hello", "1234");
+		// twoFaService.sendSimpleEmail("stefanbobeica25@gmail.com", "Hello", "1234");
 		userService.save(registrationDto);
 
-		return "redirect:/registration?success";
+		return "redirect:/register?success";
 	}
 }
