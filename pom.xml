@@ -14,9 +14,9 @@
         registration-login-spring-boot-security-thymeleaf
     </groupId>
 	<artifactId>
-        registration-login-spring-boot-security-thymeleaf
+        online-banking
     </artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.0.1</version>
 	<name>
         registration-login-spring-boot-security-thymeleaf
     </name>
@@ -95,7 +95,15 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
-			</plugin>
+				<version>2.5.5</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>repackage</goal>
+						</goals>
+					</execution>
+				</executions>
+        	</plugin>
 		</plugins>
 	</build>
 
