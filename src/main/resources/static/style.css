@@ -6,6 +6,14 @@ body {
     background-color: #151515;
 }
 
+/* *{
+    outline: 1px solid red;
+} */
+
+h5{
+    color: white;
+}
+
 body::-webkit-scrollbar {
     border-radius: 10px;
     width:  10px;
@@ -18,7 +26,7 @@ body::-webkit-scrollbar-thumb {
 }
 
 body::-webkit-scrollbar-track {
-    background: #6f6f70e5; /* Înlocuiește cu culoarea dorită */
+    background: #151515; /* Înlocuiește cu culoarea dorită */
     border-radius: 10px;
 }
 
@@ -26,6 +34,7 @@ body::-webkit-scrollbar-track {
 .navbar{
     background-color: rgba(255, 255, 255, 0.062);
     vertical-align: top;
+    z-index: 1000 !important;
 }
 
 .navbar-brand{
@@ -101,6 +110,43 @@ body::-webkit-scrollbar-track {
     padding-right: 30px !important;
 }
 
+/*////////////////PAGES////////////////////////////*/
+.page-wrapper{
+    height: auto; 
+    text-align: center;
+}
+
+.cont-bancar, .tranzactie, .vault{
+    border: solid 2px white;
+    border-radius: 20px;
+    min-width: 25vw;
+    margin-top: 2vh;
+    margin-bottom: 2vh;
+    padding-top: 2vh;
+    padding-bottom: 2vh;
+}
+
+.buton{
+    display: inline-block;
+    padding: 8px 16px;
+    margin-top: 1vh;
+    margin-bottom: 1vh;
+    background-color: #808080;
+    border: solid 1px white;
+    color: white;
+    text-decoration: none;
+    border-radius: 7px;
+}
+
+.buton-cont-bancar, .buton-depozit-bancar{
+    margin-top: 2vh;
+}
+
+#buton-deschidere-cont, #buton-deschidere-vault{
+    margin-top: 4vh;
+    margin-bottom: 4vh;
+}
+
 @media only screen and (max-width: 600px) {
     .form-title{
         padding-right: 0px !important;
@@ -115,6 +161,22 @@ body::-webkit-scrollbar-track {
     .form-div{
         margin-top: 5%;
         margin-bottom: 5%;
+    }
+
+    .page-wrapper{
+        padding-bottom: 3vh;
+    }
+
+    .cont-bancar, .tranzactie, .vault{
+        border: solid 2px white;
+        border-radius: 20px;
+        min-width: 70vw;
+        max-width: 77vw;
+    }
+
+    h2{
+        max-width: 77vw;      
+        font-size: x-large; 
     }
 }
 
