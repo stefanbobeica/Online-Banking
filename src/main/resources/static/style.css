@@ -110,13 +110,18 @@ body::-webkit-scrollbar-track {
     padding-right: 30px !important;
 }
 
+.form-vault{
+    max-width: 50%;
+    transform: translate(50%, 0%);
+}
+
 /*////////////////PAGES////////////////////////////*/
 .page-wrapper{
     height: auto; 
     text-align: center;
 }
 
-.cont-bancar, .tranzactie, .vault{
+.cont-bancar, .tranzactie, .vault, .card-bancar{
     border: solid 2px white;
     border-radius: 20px;
     min-width: 25vw;
@@ -136,13 +141,14 @@ body::-webkit-scrollbar-track {
     color: white;
     text-decoration: none;
     border-radius: 7px;
+    cursor: pointer;
 }
 
-.buton-cont-bancar, .buton-depozit-bancar{
+.buton-cont-bancar, .buton-depozit-bancar, .buton-card-bancar{
     margin-top: 2vh;
 }
 
-#buton-deschidere-cont, #buton-deschidere-vault{
+#buton-deschidere-cont, #buton-deschidere-vault, #buton-creare-card{
     margin-top: 4vh;
     margin-bottom: 4vh;
 }
@@ -167,7 +173,7 @@ body::-webkit-scrollbar-track {
         padding-bottom: 3vh;
     }
 
-    .cont-bancar, .tranzactie, .vault{
+    .cont-bancar, .tranzactie, .vault, .card-bancar{
         border: solid 2px white;
         border-radius: 20px;
         min-width: 70vw;

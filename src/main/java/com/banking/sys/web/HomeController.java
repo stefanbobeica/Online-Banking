@@ -16,11 +16,9 @@ public class HomeController {
 		public String IBAN;
 		public double sold;
 		public int id; // !!!!!IMPORTANT
-		public String tip;
 
 		public Cont(String str, double sold){
 			this.IBAN = str;
-			this.tip = "VISA";
 			this.id = ((int)sold);
 			this.sold = sold;
 		}
@@ -60,11 +58,13 @@ public class HomeController {
 		public String numar;
 		public String swift;
 		public String dataExpirare;
+		public String tip;
 
 		public Card(){
 			this.numar = "1344123412341234";
 			this.swift = "RORZBR";
 			this.dataExpirare = "23:23:2002";
+			this.tip = "VISA";
 		}
 	}
 	//////////////////////////////////////////////////
@@ -138,7 +138,17 @@ public class HomeController {
 	}
 
 	@GetMapping("/carduri")
-	public String carduri() {
+	public String carduri(Model model) {
+		///////////////////////////////////////////////
+		List<Card> carduri = Arrays.asList(
+                new Card(),
+				new Card(),
+				new Card(),
+				new Card()
+        );
+        model.addAttribute("carduri", carduri);
+		////////////////////////////////////////////////	
+
 		return "carduri";
 	}
 

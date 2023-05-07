@@ -14,7 +14,6 @@
         <div class = "d-flex flex-column flex-wrap align-items-center justify-content-center page-wrapper">
             <div th:each="cont : ${conturi}" class = "cont-bancar">
                 <h5 th:text="'IBAN cont ' + ${cont.IBAN}"></h5>
-                <h5 th:text="'Tip cont ' + ${cont.tip}"></h5>
                 <h5 th:text="'Sold cont ' + ${cont.sold} + 'RON'"></h5>
                 <a th:href="@{/contBancar?id={id}(id=${cont.id})}" class="buton">Detalii cont</a>
             </div>

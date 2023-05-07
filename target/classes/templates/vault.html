@@ -22,7 +22,10 @@
                 <form th:action="@{/retragereFonduriVault}" method="post">
                     <div class="mb-3">
                         <label for="suma" class="form-label">Suma</label>
-                        <input type="number" class="form-control" id="suma" name="suma" required>
+                        <input type="number" class="form-control form-vault" id="suma" name="suma" required>
+                    </div>
+                    <div th:if="${param.error}">
+                        <div class="alert alert-danger">Email sau parola invalide.</div>
                     </div>
                     <button type="submit" class = "buton">Retrage fonduri</button>
                 </form>
@@ -33,7 +36,10 @@
                 <form th:action="@{/adaugareFonduriVault}" method="post">
                     <div class="mb-3">
                         <label for="suma" class="form-label">Suma</label>
-                        <input type="number" class="form-control" id="suma" name="suma" required>
+                        <input type="number" class="form-control form-vault" id="suma" name="suma" required>
+                    </div>
+                    <div th:if="${param.error}">
+                        <div class="alert alert-danger">Email sau parola invalide.</div>
                     </div>
                     <button type="submit" class = "buton">Adauga fonduri</button>
                 </form>
@@ -62,7 +68,7 @@
             $("#retragere-buton").click(function() {
                 $("#retragere-form").slideToggle(700);
             });
-            
+
             $("#adaugare-buton").click(function(){
                 $("#adaugare-form").slideToggle(700);
             });

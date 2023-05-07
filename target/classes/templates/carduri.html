@@ -10,8 +10,16 @@
     
     <body>
         <div th:replace="~{navbar :: genericNavbar}"></div>
-
-        <h1>Pagina Carduri</h1>
+        <h1 style="color: white; text-align: center; margin-top: 3vh; overflow-wrap: break-word;">Carduri</h1>
+        <div class = "d-flex flex-column flex-wrap align-items-center justify-content-center page-wrapper">
+            <div th:each="card : ${carduri}" class = "card-bancar">
+                <h5 th:text="'Numar card ' + ${card.numar}"></h5>
+                <h5 th:text="'Cod SWIFT ' + ${card.swift}"></h5>
+                <h5 th:text="'Tip card ' + ${card.tip}"></h5>
+                <button class = "buton buton-card-bancar">Sterge card</button>
+            </div>
+            <a th:href="creareCard" class="buton" id="buton-creare-card">Creare card nou</a>
+        </div>
     </body>
 
     <script 

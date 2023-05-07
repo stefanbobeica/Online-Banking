@@ -14,7 +14,6 @@
             <h2 style="color: white; text-align: center; margin-top: 3vh; overflow-wrap: break-word;">Informatii cont bancar</h2>
             <div class="cont-bancar">
                 <h5 th:text="'IBAN ' + ${cont.IBAN}"></h5>
-                <h5 th:text="'Tip cont ' + ${cont.tip}"></h5>
                 <h5 th:text="'Sold ' + ${cont.sold} + ' RON'"></h5>
             </div>
             <a class="buton buton-cont-bancar" th:href="@{/initiereTrznactie}">Initiere tranzactie</a>
