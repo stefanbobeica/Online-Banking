@@ -15,7 +15,7 @@
             <div th:each="cont : ${conturi}" class = "cont-bancar">
                 <h5 th:text="'IBAN cont ' + ${cont.IBAN}"></h5>
                 <h5 th:text="'Sold cont ' + ${cont.sold} + 'RON'"></h5>
-                <a th:href="@{/contBancar?id={id}(id=${cont.id})}" class="buton">Detalii cont</a>
+                <a th:href="@{/contBancar/{id}(id=${cont.id})}" class="buton">Detalii cont</a>
             </div>
             <a th:href="deschidereCont" class="buton" id="buton-deschidere-cont">Deschide cont bancar nou</a>
         </div>

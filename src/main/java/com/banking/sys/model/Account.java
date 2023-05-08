@@ -1,6 +1,7 @@
 package com.banking.sys.model;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "account")
@@ -11,6 +12,12 @@ public class Account {
     private Long id;
     private String IBAN;
     private Double sold;
+
+    @OneToMany(mappedBy = "deLa")
+    private List<Transaction> sentTransactions;
+
+    @OneToMany(mappedBy = "catre")
+    private List<Transaction> receivedTransactions;
 
     public Account() {
     }
@@ -43,5 +50,13 @@ public class Account {
 
     public void setSold(Double sold) {
         this.sold = sold;
+    }
+
+    public List<Transaction> getSentTransactions() {
+        return sentTransactions;
+    }
+
+    public List<Transaction> getReceivedTransactions() {
+        return receivedTransactions;
     }
 }

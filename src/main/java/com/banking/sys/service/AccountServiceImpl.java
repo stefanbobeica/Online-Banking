@@ -5,6 +5,7 @@ import com.banking.sys.repository.AccountRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class AccountServiceImpl implements AccountService{
@@ -19,4 +20,13 @@ public class AccountServiceImpl implements AccountService{
     public List<Account> getAll() {
        return accountRepository.findAll();
     }
+
+    @Override
+    public Account getAccountById(Long id) {
+        Optional<Account> optionalCont = accountRepository.findById(id);
+        Account account = optionalCont.orElse(null);
+        return account;
+    }
+
+
 }

@@ -1,10 +1,13 @@
 package com.banking.sys.web;
 
+import com.banking.sys.model.Account;
 import com.banking.sys.service.AccountService;
+import com.banking.sys.service.TransactionService;
 import com.banking.sys.service.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.Arrays;
 import java.util.List;
@@ -14,24 +17,13 @@ import java.util.List;
 public class HomeController {
 
 	private AccountService accountService;
+	private TransactionService transactionService;
 
-	public HomeController(AccountService accountService) {
+	public HomeController(AccountService accountService, TransactionService transactionService) {
 		this.accountService = accountService;
+		this.transactionService = transactionService;
 	}
 
-	///////////////////////////////////////////////////
-	public static class Cont
-	{
-		public String IBAN;
-		public double sold;
-		public int id; // !!!!!IMPORTANT
-
-		public Cont(String str, double sold){
-			this.IBAN = str;
-			this.id = ((int)sold);
-			this.sold = sold;
-		}
-	}
 	public static class Tranzactie
 	{
 		public String tip;
@@ -94,23 +86,12 @@ public class HomeController {
 		return "conturiBancare";
 	}
 
-	@GetMapping("/contBancar")
-	public String contBancar(Model model){
-		////////////////////////////////////////////////
-		Cont cont = new Cont("RO49AAAA1B31007593840000", 10.0);
-		cont.id = 234;
-		model.addAttribute("cont", cont);
+	@GetMapping("/contBancar/{id}")
+	public String contBancar(@PathVariable("id") Long id, Model model){
 
-		List<Tranzactie> tranzactii = Arrays.asList(
-                new Tranzactie(),
-				new Tranzactie(),
-				new Tranzactie(),
-				new Tranzactie(),
-				new Tranzactie(),
-				new Tranzactie()
-        );
-        model.addAttribute("tranzactii", tranzactii);
-		///////////////////////////////////////////////
+		Account account = accountService.getAccountById(id);
+		model.addAttribute("cont", account);
+        model.addAttribute("tranzactii", transactionService.findAllTransactionsByAccount(account));
 		return "contBancar";
 	}
 
