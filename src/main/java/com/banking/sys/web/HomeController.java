@@ -1,5 +1,7 @@
 package com.banking.sys.web;
 
+import com.banking.sys.service.AccountService;
+import com.banking.sys.service.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -10,6 +12,13 @@ import java.util.List;
 
 @Controller
 public class HomeController {
+
+	private AccountService accountService;
+
+	public HomeController(AccountService accountService) {
+		this.accountService = accountService;
+	}
+
 	///////////////////////////////////////////////////
 	public static class Cont
 	{
@@ -81,16 +90,7 @@ public class HomeController {
 
 	@GetMapping("/conturiBancare")
 	public String conturiBancare(Model model) {
-		///////////////////////////////////////////////
-		List<Cont> produse = Arrays.asList(
-                new Cont("RO49AAAA1B31007593840000", 10.0),
-                new Cont("RO49AAAA1B31007593840000", 20.0),
-                new Cont("RO49AAAA1B31007593840000", 30.0),
-				new Cont("RO49AAAA1B31007593840000", 30.0),
-				new Cont("RO49AAAA1B31007593840000", 30.0)
-        );
-        model.addAttribute("conturi", produse);
-		////////////////////////////////////////////////
+		model.addAttribute("conturi", accountService.getAll());
 		return "conturiBancare";
 	}
 
