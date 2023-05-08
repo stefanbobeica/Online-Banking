@@ -6,8 +6,8 @@ import com.banking.sys.service.TransactionService;
 import com.banking.sys.service.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.Arrays;
 import java.util.List;
@@ -93,6 +93,18 @@ public class HomeController {
 		model.addAttribute("cont", account);
         model.addAttribute("tranzactii", transactionService.findAllTransactionsByAccount(account));
 		return "contBancar";
+	}
+	@PostMapping("/creareContBancar")
+	public String createBankAccount(@ModelAttribute Account account, Model model) {
+		Account savedAccount = accountService.saveAccount(account);
+		model.addAttribute("account", savedAccount);
+		return "somePageToShowTheAccount";
+	}
+	@PostMapping("/stergeContBancar")
+	public String stergereContBancar(@RequestParam("iban") String iban, RedirectAttributes redirectAttributes) {
+		accountService.deleteAccountByIban(iban);
+		redirectAttributes.addFlashAttribute("message", "Contul a fost sters cu succes!");
+		return "conturiBancare";
 	}
 
 	@GetMapping("/vaults")

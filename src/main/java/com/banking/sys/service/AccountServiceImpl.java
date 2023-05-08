@@ -28,5 +28,15 @@ public class AccountServiceImpl implements AccountService{
         return account;
     }
 
+    @Override
+    public Account saveAccount(Account account) {
+        return accountRepository.save(account);
+    }
+    @Override
+    public void deleteAccountByIban(String iban) {
+        accountRepository.deleteByIban(iban);
+    }
+
+
 
 }

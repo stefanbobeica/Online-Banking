@@ -10,7 +10,7 @@ public class Account {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String IBAN;
+    private String iban;
     private Double sold;
 
     @OneToMany(mappedBy = "deLa")
@@ -24,7 +24,7 @@ public class Account {
 
     public Account(Long id, String IBAN, Double sold) {
         this.id = id;
-        this.IBAN = IBAN;
+        this.iban = IBAN;
         this.sold = sold;
     }
 
@@ -37,11 +37,11 @@ public class Account {
     }
 
     public String getIBAN() {
-        return IBAN;
+        return iban;
     }
 
     public void setIBAN(String IBAN) {
-        this.IBAN = IBAN;
+        this.iban = IBAN;
     }
 
     public Double getSold() {
