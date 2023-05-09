@@ -10,11 +10,11 @@
     
     <body>
         <div th:replace="~{navbar :: genericNavbar}"></div>
-        <h1 style="color: white; text-align: center; margin-top: 3vh; overflow-wrap: break-word;">Conturi bancare</h1>
+        <h1 style="color: white; text-align: center; margin-top: 3vh;">Conturi bancare</h1>
         <div class = "d-flex flex-column flex-wrap align-items-center justify-content-center page-wrapper">
             <div th:each="cont : ${conturi}" class = "cont-bancar">
-                <h5 th:text="'IBAN cont ' + ${cont.IBAN}"></h5>
-                <h5 th:text="'Sold cont ' + ${cont.sold} + 'RON'"></h5>
+                <h5 th:text="'IBAN: ' + ${cont.IBAN}"></h5>
+                <h5 th:text="'Sold: ' + ${cont.sold} + 'RON'"></h5>
                 <a th:href="@{/contBancar/{id}(id=${cont.id})}" class="buton">Detalii cont</a>
             </div>
             <a th:href="deschidereCont" class="buton" id="buton-deschidere-cont">Deschide cont bancar nou</a>

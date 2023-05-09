@@ -23,7 +23,8 @@ public class HomeController {
 		this.accountService = accountService;
 		this.transactionService = transactionService;
 	}
-
+	
+	/////////////////////////////////////////////////////
 	public static class Tranzactie
 	{
 		public String tip;

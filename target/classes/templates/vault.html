@@ -6,6 +6,8 @@
         <title>Banking App</title>
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
         <link rel="stylesheet" href="style.css">
+        <meta name="_csrf" th:content="${_csrf.token}"/>
+        <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
     </head>
     
     <body>
@@ -18,12 +20,18 @@
             </div>
             <!-- FORM RETRAGERE FONDURI -->
             <a class="buton buton-depozit-bancar" id="retragere-buton">Retragere fonduri</a>
-            <div class = "vault" id="retragere-form" style="display: none;">
-                <form th:action="@{/retragereFonduriVault}" method="post">
+            <div class = "vault" id="retragere-form-wrapper" style="display: none;">
+                <form th:action="@{/retragereFonduriVault}" id = "retragere-form" method="post">
                     <div class="mb-3">
                         <label for="suma" class="form-label">Suma</label>
                         <input type="number" class="form-control form-vault" id="suma" name="suma" required>
                     </div>
+                    
+                    <!-- Aici vor fi conturile incarcate dinamic -->
+                    <label for="retragere-cont-select" class="form-label">Selecteaza contul</label>
+                    <select class="form-control" id="retragere-cont-select">
+                    </select>
+
                     <div th:if="${param.error}">
                         <div class="alert alert-danger">Email sau parola invalide.</div>
                     </div>
@@ -32,12 +40,18 @@
             </div>
             <!-- FORM ADAUGARE FONDURI -->
             <a class="buton buton-depozit-bancar" id="adaugare-buton">Adauga fonduri</a>
-            <div class = "vault" id="adaugare-form" style="display: none;">
-                <form th:action="@{/adaugareFonduriVault}" method="post">
+            <div class = "vault" id="adaugare-form-wrapper" style="display: none;">
+                <form th:action="@{/adaugareFonduriVault}" id="adaugare-form" method="post">
                     <div class="mb-3">
                         <label for="suma" class="form-label">Suma</label>
                         <input type="number" class="form-control form-vault" id="suma" name="suma" required>
                     </div>
+
+                    <!-- Aici vor fi conturile incarcate dinamic -->
+                    <label for="adaugare-cont-select" class="form-label">Selecteaza contul</label>
+                    <select class="form-control" id="adaugare-cont-select">
+                    </select>
+
                     <div th:if="${param.error}">
                         <div class="alert alert-danger">Email sau parola invalide.</div>
                     </div>
@@ -65,12 +79,49 @@
     </script>
     <script>
         $(document).ready(function() {
+            var csrfToken = $('meta[name="_csrf"]').attr('content');
+            var csrfHeader = $('meta[name="_csrf_header"]').attr('content');
+
+            let loadAccounts = (IDselect) => {
+                $.ajax({
+                    type: "POST",
+                    url: "/api/conturi-bancare",
+                    dataType: "json",
+                    beforeSend: function(xhr) {
+                        xhr.setRequestHeader(csrfHeader, csrfToken);
+                    },
+                    success: function(conturi) {
+                        //console.log(conturi);
+                        let elem = document.getElementById(IDselect);
+                        elem.innerHTML = ``;
+                        conturi.forEach((cont) => {
+                            //console.log(elem);
+                            elem.innerHTML += `<option>${cont.IBAN}</option>`;
+                        });
+                    },
+                    error: function(xhr, status, error) {
+                        console.error("Eroare la preluarea tranzacțiilor: ", error);
+                    }
+                });
+            };
+
+            let retrageActive = false, adaugaActive = false;
             $("#retragere-buton").click(function() {
-                $("#retragere-form").slideToggle(700);
+                retrageActive = !retrageActive;
+                if(retrageActive){
+                    loadAccounts("retragere-cont-select");
+                }
+                
+                $("#retragere-form-wrapper").slideToggle(700);
             });
 
             $("#adaugare-buton").click(function(){
-                $("#adaugare-form").slideToggle(700);
+                adaugaActive = !adaugaActive;
+                if(adaugaActive){
+                    loadAccounts("adaugare-cont-select");
+                }
+
+                $("#adaugare-form-wrapper").slideToggle(700);
             });
         });
     </script>
