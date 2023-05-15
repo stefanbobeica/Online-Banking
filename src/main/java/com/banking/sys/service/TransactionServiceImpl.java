@@ -20,4 +20,9 @@ public class TransactionServiceImpl implements TransactionService{
 
         return transactionRepository.findByDeLaOrCatre(account, account);
     }
+
+    @Override
+    public void save(Transaction transaction) {
+        transactionRepository.save(transaction);
+    }
 }

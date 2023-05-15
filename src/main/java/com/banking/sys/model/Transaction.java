@@ -24,8 +24,8 @@ public class Transaction {
     public Transaction() {
     }
 
-    public Transaction(Long id, String tip, Account catre, double valoare, String data, Account deLa, boolean send) {
-        this.id = id;
+    public Transaction(/*Long id, */String tip, Account catre, double valoare, String data, Account deLa, boolean send) {
+       // this.id = id;
         this.tip = tip;
         this.catre = catre;
         this.valoare = valoare;

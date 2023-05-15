@@ -1,8 +1,10 @@
 package com.banking.sys.service;
 
 import com.banking.sys.model.Account;
+import com.banking.sys.model.User;
 import com.banking.sys.repository.AccountRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -37,6 +39,39 @@ public class AccountServiceImpl implements AccountService{
         accountRepository.deleteByIban(iban);
     }
 
+    @Override
+    public Account getAccountByIBAN(String iban_dest) {
+        return accountRepository.getByIban(iban_dest);
+    }
+
+    @Override
+    public Boolean checkForAvailableAmount(Long id, Double amount) {
+        return accountRepository.findAccountById(id).getSold().compareTo(amount) >= 0;
+    }
+
+    @Transactional
+    @Override
+    public void withdrawFromAccount(Account account, Double amount) {
+        account.setSold(account.getSold() - amount);
+        accountRepository.save(account);
+    }
+
+    @Transactional
+    @Override
+    public void addMoneyToAccount(Account account, Double amount) {
+        account.setSold(account.getSold() + amount);
+        accountRepository.save(account);
+    }
+
+    @Override
+    public void deleteAccountById(Long accountId) {
+        accountRepository.deleteById(accountId);
+    }
+
+    @Override
+    public List<Account> getAccountByUser(User user) {
+        return accountRepository.findAccountsByUser(user);
+    }
 
 
 }

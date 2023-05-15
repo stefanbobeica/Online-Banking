@@ -7,4 +7,6 @@ import java.util.List;
 
 public interface TransactionService {
     List<Transaction> findAllTransactionsByAccount(Account account);
+
+    void save(Transaction transaction);
 }

@@ -1,9 +1,13 @@
 package com.banking.sys.web;
 
 import com.banking.sys.model.Account;
+import com.banking.sys.model.User;
 import com.banking.sys.service.AccountService;
 import com.banking.sys.service.TransactionService;
 import com.banking.sys.service.UserService;
+import org.apache.commons.lang3.RandomStringUtils;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -17,32 +21,13 @@ import java.util.List;
 public class HomeController {
 
 	private AccountService accountService;
-	private TransactionService transactionService;
+	private UserService userService;
 
-	public HomeController(AccountService accountService, TransactionService transactionService) {
+	public HomeController(AccountService accountService, UserService userService) {
 		this.accountService = accountService;
-		this.transactionService = transactionService;
+		this.userService = userService;
 	}
-	
-	/////////////////////////////////////////////////////
-	public static class Tranzactie
-	{
-		public String tip;
-		public String catre;
-		public double valoare;
-		public String data;
-		public String deLa;
-		public boolean send;
 
-		public Tranzactie(){
-			this.tip = "INTER/EXTRA";
-			this.catre = "IBAN/MERCHANT";
-			this.valoare = 231.32;
-			this.deLa = "IBAN/MERCHANT";
-			this.send = true;
-			this.data = "23:04:2021";
-		}
-	}
 	public static class Vault
 	{
 		public int id; // !!!!!IMPORTANT
@@ -55,6 +40,7 @@ public class HomeController {
 			this.id = 23;
 		}
 	}
+	/////////////////////////////////////////////////
 	public static class Card
 	{
 		public String numar;
@@ -83,29 +69,32 @@ public class HomeController {
 
 	@GetMapping("/conturiBancare")
 	public String conturiBancare(Model model) {
-		model.addAttribute("conturi", accountService.getAll());
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		String userEmail = authentication.getName();
+		User user= userService.getByEmail(userEmail);
+		model.addAttribute("conturi",accountService.getAccountByUser(user));
 		return "conturiBancare";
 	}
 
-	@GetMapping("/contBancar/{id}")
-	public String contBancar(@PathVariable("id") Long id, Model model){
+	//TODO : implement this
+	@GetMapping("/deschidereCont")
+	public String createBankAccount(Model model) {
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		String userEmail = authentication.getName();
+		User user= userService.getByEmail(userEmail);
 
-		Account account = accountService.getAccountById(id);
-		model.addAttribute("cont", account);
-        model.addAttribute("tranzactii", transactionService.findAllTransactionsByAccount(account));
-		return "contBancar";
-	}
-	@PostMapping("/creareContBancar")
-	public String createBankAccount(@ModelAttribute Account account, Model model) {
-		Account savedAccount = accountService.saveAccount(account);
-		model.addAttribute("account", savedAccount);
-		return "somePageToShowTheAccount";
-	}
-	@PostMapping("/stergeContBancar")
-	public String stergereContBancar(@RequestParam("iban") String iban, RedirectAttributes redirectAttributes) {
-		accountService.deleteAccountByIban(iban);
-		redirectAttributes.addFlashAttribute("message", "Contul a fost sters cu succes!");
-		return "conturiBancare";
+		String generatedIban = RandomStringUtils.randomAlphanumeric(13).toUpperCase();
+		while (accountService.getAccountByIBAN(generatedIban) != null) {
+			generatedIban = RandomStringUtils.randomAlphanumeric(13).toUpperCase();
+		}
+
+		Account newAccount = new Account(generatedIban, 0.0);
+
+		newAccount.setUser(user);
+
+		accountService.saveAccount(newAccount);
+
+		return "redirect:/conturiBancare/";
 	}
 
 	@GetMapping("/vaults")

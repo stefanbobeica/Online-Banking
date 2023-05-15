@@ -13,17 +13,28 @@ public class Account {
     private String iban;
     private Double sold;
 
-    @OneToMany(mappedBy = "deLa")
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    @OneToMany(mappedBy = "deLa", cascade = CascadeType.ALL)
     private List<Transaction> sentTransactions;
 
-    @OneToMany(mappedBy = "catre")
+    @OneToMany(mappedBy = "catre", cascade = CascadeType.ALL)
     private List<Transaction> receivedTransactions;
-
     public Account() {
     }
 
-    public Account(Long id, String IBAN, Double sold) {
-        this.id = id;
+    public Account(/*Long id,*/ String IBAN, Double sold) {
+        //this.id = id;
         this.iban = IBAN;
         this.sold = sold;
     }

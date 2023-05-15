@@ -20,7 +20,7 @@
 
             <a class="buton buton-cont-bancar" id="buton-initiere-tranzactie" >Initiere tranzactie</a>
             <div class = "card-bancar" id="form-initiere-tranzactie-wrapper" style="display: none;">
-                <form th:action="@{/retragereFonduriVault}" id="form-initiere-tranzactie" method="post">
+                <form th:action="@{initiereTranzactie}" id="form-initiere-tranzactie" method="post">
                     <div class="mb-3">
                         <label for="suma" class="form-label">Suma</label>
                         <input type="number" class="form-control form-vault" id="suma" name="suma" required>
@@ -36,13 +36,13 @@
                 </form>
             </div>
 
-            <a class="buton buton-cont-bancar" th:href="@{/stergereContBancar}">Stergere cont</a>
+            <a class="buton buton-cont-bancar" th:href="@{/contBancar/{accountId}/stergereContBancar(accountId=${accountId})}">Stergere cont</a>
             
             <h2 style="color: white; text-align: center; margin-top: 2vh; overflow-wrap: break-word;">Tranzactii realizate cu acest cont bancar</h2>
             <div th:each="tranzactie : ${tranzactii}" class = "tranzactie">
                 <h5 th:text="'Tip traznactie: ' + ${tranzactie.tip}"></h5>
-                <h5 th:text="'De la ' + ${tranzactie.deLa}"></h5>
-                <h5 th:text="'Catre ' + ${tranzactie.catre}"></h5>
+                <h5 th:text="'De la ' + ${tranzactie.deLa.getIBAN()}"></h5>
+                <h5 th:text="'Catre ' + ${tranzactie.catre.getIBAN()}"></h5>
                 <h5 th:text="'Valoare ' + ${tranzactie.valoare} + 'RON'"></h5>
                 <h5 th:text="'Data ' + ${tranzactie.data}"></h5>
             </div>
