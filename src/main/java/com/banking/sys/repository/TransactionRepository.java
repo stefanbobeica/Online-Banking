@@ -11,5 +11,5 @@ import java.util.List;
 public interface TransactionRepository extends JpaRepository<Transaction, Long> {
     List<Transaction> findByDeLaOrCatreAndStatus(Account deLa, Account catre, String status);
 
-    List<Transaction> findByStatusAndCatre(String pending, Account catre);
+    List<Transaction> findByStatusAndCatre(String status, Account catre);
 }

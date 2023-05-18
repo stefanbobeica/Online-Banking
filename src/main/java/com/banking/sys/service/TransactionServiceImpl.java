@@ -29,7 +29,9 @@ public class TransactionServiceImpl implements TransactionService{
 
     @Override
     public List<Transaction> findAllPendingTransactionsByAccount(Account account) {
-        return transactionRepository.findByStatusAndCatre("pending", account);
+        List<Transaction> transactions = transactionRepository.findByStatusAndCatre("pending", account);
+        System.out.println(transactions.size());
+        return transactions;
     }
 
     @Override

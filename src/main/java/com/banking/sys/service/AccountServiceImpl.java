@@ -1,6 +1,7 @@
 package com.banking.sys.service;
 
 import com.banking.sys.model.Account;
+import com.banking.sys.model.Transaction;
 import com.banking.sys.model.User;
 import com.banking.sys.repository.AccountRepository;
 import org.springframework.stereotype.Service;
@@ -8,14 +9,17 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class AccountServiceImpl implements AccountService{
 
     private AccountRepository accountRepository;
+    private TransactionService transactionService;
 
-    public AccountServiceImpl(AccountRepository accountRepository) {
+    public AccountServiceImpl(AccountRepository accountRepository, TransactionService transactionService) {
         this.accountRepository = accountRepository;
+        this.transactionService = transactionService;
     }
 
     @Override
@@ -65,6 +69,29 @@ public class AccountServiceImpl implements AccountService{
 
     @Override
     public void deleteAccountById(Long accountId) {
+        Account account = this.getAccountById(accountId);
+        Account deletedAccount  = new Account("deleted-account", 0.0);
+        this.saveAccount(deletedAccount);
+        List<Transaction> received = account.getReceivedTransactions()
+                .stream()
+                .map(transaction -> {
+                    transaction.setCatre(deletedAccount);
+                    return transaction;
+                })
+                .collect(Collectors.toList());
+        for(Transaction transaction : received){
+            transactionService.save(transaction);
+        }
+        List<Transaction> sent = account.getSentTransactions()
+                .stream()
+                .map(transaction -> {
+                    transaction.setCatre(deletedAccount);
+                    return transaction;
+                })
+                .collect(Collectors.toList());
+        for(Transaction transaction : sent){
+            transactionService.save(transaction);
+        }
         accountRepository.deleteById(accountId);
     }
 

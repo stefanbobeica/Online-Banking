@@ -134,11 +134,11 @@ public class HomeController {
 
 		return "carduri";
 	}
-
-	@GetMapping("/tranzactii")
-	public String tranzactii() {
-		return "tranzactii";
-	}
+//
+//	@GetMapping("/tranzactii")
+//	public String tranzactii() {
+//		return "tranzactii";
+//	}
 
 	@GetMapping("/myAccount")
 	public String myAccount() {

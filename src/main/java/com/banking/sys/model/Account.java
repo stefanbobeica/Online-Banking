@@ -1,5 +1,7 @@
 package com.banking.sys.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import javax.persistence.*;
 import java.util.List;
 
@@ -25,10 +27,10 @@ public class Account {
         this.user = user;
     }
 
-    @OneToMany(mappedBy = "deLa", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "deLa")
     private List<Transaction> sentTransactions;
 
-    @OneToMany(mappedBy = "catre", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "catre")
     private List<Transaction> receivedTransactions;
     public Account() {
     }

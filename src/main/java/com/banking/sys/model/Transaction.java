@@ -1,5 +1,7 @@
 package com.banking.sys.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import javax.persistence.*;
 
 @Entity
@@ -84,7 +86,7 @@ public class Transaction {
         this.deLa = deLa;
     }
 
-    public String isStatus() {
+    public String getStatus() {
         return status;
     }
 
