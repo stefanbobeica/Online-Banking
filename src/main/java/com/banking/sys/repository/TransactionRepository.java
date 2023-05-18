@@ -9,5 +9,7 @@ import java.util.List;
 
 @Repository
 public interface TransactionRepository extends JpaRepository<Transaction, Long> {
-    List<Transaction> findByDeLaOrCatre(Account deLa, Account catre);
+    List<Transaction> findByDeLaOrCatreAndStatus(Account deLa, Account catre, String status);
+
+    List<Transaction> findByStatusAndCatre(String pending, Account catre);
 }

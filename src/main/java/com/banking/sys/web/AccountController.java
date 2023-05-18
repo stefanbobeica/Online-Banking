@@ -7,7 +7,6 @@ import com.banking.sys.service.TransactionService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.time.LocalDateTime;
 
@@ -28,7 +27,7 @@ public class AccountController {
 
         Account account = accountService.getAccountById(id);
         model.addAttribute("cont", account);
-        model.addAttribute("tranzactii", transactionService.findAllTransactionsByAccount(account));
+        model.addAttribute("tranzactii", transactionService.findAllCompletedTransactionsByAccount(account)); //only completed transactions
         model.addAttribute("accountId", id);  // store the account id in the session
         return "contBancar";
     }
@@ -39,12 +38,13 @@ public class AccountController {
 
         Account account_source = accountService.getAccountById(accountId);
         Account account_dest = accountService.getAccountByIBAN(iban);
-        Transaction transaction = new Transaction("intrabancar",account_dest ,Double.parseDouble(suma), LocalDateTime.now().toString(),account_source, true);
+        Transaction transaction = new Transaction("intrabancar",account_dest ,Double.parseDouble(suma), LocalDateTime.now().toString(),account_source, "pending");
         if(!accountService.checkForAvailableAmount(accountId, Double.parseDouble(suma))){
             System.out.println("Not enough money");
         }else{
              accountService.withdrawFromAccount(account_source,Double.parseDouble(suma));
              accountService.addMoneyToAccount(account_dest,Double.parseDouble(suma));
+             transaction.setStatus("completed");
              transactionService.save(transaction);
 
         }

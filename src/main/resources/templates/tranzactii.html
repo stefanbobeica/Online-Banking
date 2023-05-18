@@ -32,39 +32,41 @@
         crossorigin="anonymous">
     </script>
     <script>
-    $(document).ready(function() {
-        var csrfToken = $('meta[name="_csrf"]').attr('content');
-        var csrfHeader = $('meta[name="_csrf_header"]').attr('content');
+        $(document).ready(function() {
+            var csrfToken = $('meta[name="_csrf"]').attr('content');
+            var csrfHeader = $('meta[name="_csrf_header"]').attr('content');
 
-        setInterval(function() {
-            $.ajax({
-                type: "POST",
-                url: "/api/tranzactii",
-                dataType: "json",
-                beforeSend: function(xhr) {
-                    xhr.setRequestHeader(csrfHeader, csrfToken);
-                },
-                success: function(tranzactii) {
-                    let tranzactiiDiv = document.getElementById("tranzactii");
-                    tranzactiiDiv.innerHTML = ``;
+            setInterval(function() {
+                $.ajax({
+                    type: "POST",
+                    url: "/api/tranzactii",
+                    dataType: "json",
+                    beforeSend: function(xhr) {
+                        xhr.setRequestHeader(csrfHeader, csrfToken);
+                    },
+                    success: function(tranzactii) {
+                        let tranzactiiDiv = document.getElementById("tranzactii");
+                        tranzactiiDiv.innerHTML = ``;
 
-                    for (var i = 0; i < tranzactii.length; i++) {
-                        tranzactiiDiv.innerHTML += 
-                            `<div class = "tranzactie">
-                                <h5>Nume tranzactie ${tranzactii[0].nume}</h5>
-                                <h5>Suma ${tranzactii[0].suma}</h5>
-                                <h5>Nume comerciant ${tranzactii[0].numeComerciant}</h5>
+                        for (var i = 0; i < tranzactii.length; i++) {
+                            tranzactiiDiv.innerHTML +=
+                                `<div class = "tranzactie">
+                                <h5>Tip tranzactie: ${tranzactii[i].tip}</h5>
+                                <h5>Suma: ${tranzactii[i].valoare}</h5>
+                                <h5>De la: ${tranzactii[i].deLa.id}</h5>
+                                <h5>Catre: ${tranzactii[i].catre.id}</h5>
+                                <h5>Status: ${tranzactii[i].status}</h5>
                                 <button class = "buton buton-tranzactie-pending">Accepta</button>
                                 <button class = "buton buton-traznactie-pending">Respinge</button>
                             </div>`;
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        console.error("Eroare la preluarea tranzacțiilor: ", error);
                     }
-                },
-                error: function(xhr, status, error) {
-                    console.error("Eroare la preluarea tranzacțiilor: ", error);
-                }
-            });
-        }, 2000);
-    });
+                });
+            }, 2000);
+        });
     </script>
     
 </html>

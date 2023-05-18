@@ -19,19 +19,19 @@ public class Transaction {
     @ManyToOne
     @JoinColumn(name = "deLa_IBAN")
     private Account deLa;
-    private boolean send;
+    private String status; //completed / pending
 
     public Transaction() {
     }
 
-    public Transaction(/*Long id, */String tip, Account catre, double valoare, String data, Account deLa, boolean send) {
+    public Transaction(/*Long id, */String tip, Account catre, double valoare, String data, Account deLa, String status) {
        // this.id = id;
         this.tip = tip;
         this.catre = catre;
         this.valoare = valoare;
         this.data = data;
         this.deLa = deLa;
-        this.send = send;
+        this.status = status;
     }
 
     public Long getId() {
@@ -84,11 +84,11 @@ public class Transaction {
         this.deLa = deLa;
     }
 
-    public boolean isSend() {
-        return send;
+    public String isStatus() {
+        return status;
     }
 
-    public void setSend(boolean send) {
-        this.send = send;
+    public void setStatus(String send) {
+        this.status = send;
     }
 }
