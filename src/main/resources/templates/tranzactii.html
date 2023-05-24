@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Banking App</title>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+        <link rel="stylesheet" href="/style.css">
+        <meta name="_csrf" th:content="${_csrf.token}"/>
+        <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+    </head>
+
+    <body>
+        <div th:replace="~{navbar :: genericNavbar}"></div>
+        <h1 style="color: white; text-align: center; margin-top: 3vh; overflow-wrap: break-word;">Tranzactii in asteptare</h1>
+        <div id="tranzactii" class = "d-flex flex-column flex-wrap align-items-center justify-content-center page-wrapper">
+            <div th:each="transaction : ${transactions}" class="tranzactie">
+                <h5>Tip tranzactie: <span th:text="${transaction.getTip()}"></span></h5>
+                <h5>Suma: <span th:text="${transaction.getValoare()}"></span></h5>
+                <h5>De la: <span th:text="${transaction.getDeLa().getIBAN()}"></span></h5>
+                <h5>Catre: <span th:text="${transaction.getCatre().getIBAN()}"></span></h5>
+                <h5>Status: <span th:text="${transaction.getStatus()}"></span></h5>
+                <form th:action="@{/tranzactii/acceptaTranzactie/{id}(id=${transaction.id})}" th:method="post">
+                    <button type="submit" class="buton buton-tranzactie-pending">Accepta</button>
+                </form>
+                <form th:action="@{/tranzactii/respingeTranzactie/{id}(id=${transaction.id})}" th:method="post">
+                    <button type="submit" class="buton buton-tranzactie-pending">Respinge</button>
+                </form>
+
+
+                <!--                <button class = "buton buton-tranzactie-pending">Accepta</button>-->
+<!--                <button class = "buton buton-traznactie-pending">Respinge</button>-->
+            </div>
+        </div>
+
+    </body>
+    
+</html>

@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Banking App</title>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+        <link rel="stylesheet" href="/style.css">
+        <meta name="_csrf" th:content="${_csrf.token}"/>
+        <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+    </head>
+    
+    <body>
+        <div th:replace="~{navbar :: genericNavbar}"></div>
+        <div class = "d-flex flex-column flex-wrap align-items-center justify-content-center page-wrapper">
+            <h2 style="color: white; text-align: center; margin-top: 3vh; overflow-wrap: break-word;">Informatii depozit bancar</h2>
+            <div class="vault">
+                <h5 th:text="'Nume ' + ${vault.numeVault}"></h5>
+                <h5 th:text="'Sold ' + ${vault.sold} + ' RON'"></h5>
+            </div>
+            <!-- FORM RETRAGERE FONDURI -->
+            <a class="buton buton-depozit-bancar" id="retragere-buton">Retragere fonduri</a>
+            <div class = "vault" id="retragere-form-wrapper" style="display: none;">
+                <form th:action="@{/retragereFonduriVault}" id = "retragere-form" method="post">
+                    <input type="hidden" name="idVault" th:value="${vault.id}" />
+                    <div class="mb-3">
+                        <label for="suma" class="form-label">Suma</label>
+                        <input type="number" class="form-control form-vault" id="suma" name="suma" required>
+                    </div>
+                    
+                    <!-- Aici vor fi conturile incarcate dinamic -->
+                    <label for="retragere-cont-select" class="form-label">Selecteaza contul</label>
+                    <select class="form-control" id="retragere-cont-select" name="selectedIban">
+                        <option th:each="account : ${conturi}" th:value="${account.IBAN}" th:text="${account.IBAN}"></option>
+                    </select>
+
+                    <div th:if="${param.error}">
+                        <div class="alert alert-danger">Email sau parola invalide.</div>
+                    </div>
+                    <button type="submit" class = "buton">Retrage fonduri</button>
+                </form>
+            </div>
+            <!-- FORM ADAUGARE FONDURI -->
+            <a class="buton buton-depozit-bancar" id="adaugare-buton">Adauga fonduri</a>
+            <div class = "vault" id="adaugare-form-wrapper" style="display: none;">
+                <form th:action="@{/adaugareFonduriVault}" id="adaugare-form" method="post">
+                    <input type="hidden" name="idVault" th:value="${vault.id}" />
+                    <div class="mb-3">
+                        <label for="suma" class="form-label">Suma</label>
+                        <input type="number" class="form-control form-vault" id="suma" name="suma" required>
+                    </div>
+
+                    <!-- Aici vor fi conturile incarcate dinamic -->
+                    <label for="adaugare-cont-select" class="form-label">Selecteaza contul</label>
+                    <select class="form-control" id="adaugare-cont-select" name = "selectedIban" >
+                        <option th:each="account : ${conturi}" th:value="${account.IBAN}" th:text="${account.IBAN}"></option>
+                    </select>
+
+                    <div th:if="${param.error}">
+                        <div class="alert alert-danger">Email sau parola invalide.</div>
+                    </div>
+
+                    <button type="submit" class = "buton">Adauga fonduri</button>
+                </form>
+            </div>
+            <!-- FORM ADAUGARE FONDURI -->
+            <form th:action="@{/stergereVault}" method="post">
+                <input type="hidden" name="idVault" th:value="${vault.id}" />
+                <button type="submit" class="buton buton-card-bancar">Sterge vault</button>
+            </form>
+        </div>
+    </body>
+
+    <script
+    src="https://code.jquery.com/jquery-3.6.4.js"
+    integrity="sha256-a9jBBRygX1Bh5lt8GZjXDzyOB+bWve9EiO7tROUtj/E="
+    crossorigin="anonymous"></script>
+    <script 
+        src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" 
+        crossorigin="anonymous">
+    </script>
+    <script 
+        src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" 
+        crossorigin="anonymous">
+    </script>
+    <script>
+        $(document).ready(function() {
+            $("#retragere-buton").click(function() {
+                $("#retragere-form-wrapper").slideToggle(700);
+            });
+
+            $("#adaugare-buton").click(function() {
+                $("#adaugare-form-wrapper").slideToggle(700);
+            });
+        });
+    </script>
+
+</html>
